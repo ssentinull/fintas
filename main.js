@@ -1,23 +1,24 @@
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const express = require("express");
+const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
-const { mongoConnection } = require("./db/mongo.db");
 
 dotenv.config();
 
-mongoConnection((err, client) => {
-  if (err) {
-    console.log(err);
-  }
+mongoose.connect(process.env.CLOUD_DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: process.env.DB_NAME
+});
 
-  const app = express();
+const app = express();
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use("/user", userRoute);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.listen(process.env.PORT, () => {
-    console.log("Server is listening at PORT " + process.env.PORT);
-  });
+app.use("/api/user", userRoute);
+
+app.listen(process.env.PORT, () => {
+  console.log("Server is listening at PORT " + process.env.PORT);
 });
