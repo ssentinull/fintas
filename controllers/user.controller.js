@@ -16,6 +16,16 @@ const create = async (req, res) => {
   }
 };
 
+const readAll = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(400).send(error.errmsg);
+  }
+};
+
 const test = (req, res) => res.send("hello");
 
-module.exports = { create, test };
+module.exports = { create, readAll, test };
