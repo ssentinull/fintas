@@ -7,7 +7,13 @@ const userRoute = require("./routes/user.route");
 
 dotenv.config();
 
-mongoose.connect(process.env.CLOUD_DB_URL, {
+const nodeEnv = process.env.NODE_ENV || "dev";
+let dbUrl;
+
+if (nodeEnv === "dev") dbUrl = process.env.LOCAL_DB_URL;
+else dbUrl = process.env.CLOUD_DB_URL;
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   dbName: process.env.DB_NAME
