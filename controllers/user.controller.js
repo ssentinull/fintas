@@ -26,6 +26,26 @@ const readAll = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { id, email, password } = req.body;
+
+    const updatedUser = await User.findOneAndUpdate(
+      { id },
+      { $set: { email, password } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      res.status(400).send(`User with id ${id} doesn't exist`);
+    }
+
+    res.status(200).send(updatedUser);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const test = (req, res) => res.send("hello");
 
-module.exports = { create, readAll, test };
+module.exports = { create, readAll, test, update };

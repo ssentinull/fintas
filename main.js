@@ -16,6 +16,7 @@ else dbUrl = process.env.CLOUD_DB_URL;
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
   dbName: process.env.DB_NAME
 });
 
