@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const uuidv1 = require("uuid");
 
-const create = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const [{ email, password }, id] = [req.body, uuidv1()];
     const newUser = await User.create({
@@ -16,7 +16,23 @@ const create = async (req, res) => {
   }
 };
 
-const readAll = async (req, res) => {
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await User.findOneAndRemove({ id });
+
+    if (!deletedUser) {
+      res.status(400).send(`User with id ${id} doesn't exist`);
+    }
+
+    res.status(200).send(deletedUser);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const readUsers = async (req, res) => {
   try {
     const users = await User.find();
 
@@ -26,7 +42,7 @@ const readAll = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const { id, email, password } = req.body;
 
@@ -48,4 +64,4 @@ const update = async (req, res) => {
 
 const test = (req, res) => res.send("hello");
 
-module.exports = { create, readAll, test, update };
+module.exports = { createUser, deleteUser, readUsers, test, updateUser };
