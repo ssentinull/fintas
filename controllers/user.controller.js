@@ -1,14 +1,10 @@
-const User = require("../models/user.model");
+const { create, read, remove, update } = require("../services/user.service");
 const uuidv1 = require("uuid");
 
 const createUser = async (req, res) => {
   try {
-    const [{ email, password }, id] = [req.body, uuidv1()];
-    const newUser = await User.create({
-      id: id,
-      email: email,
-      password: password
-    });
+    const id = uuidv1();
+    const newUser = await create({ ...req.body, id });
 
     res.status(200).send(newUser);
   } catch (error) {
@@ -19,8 +15,7 @@ const createUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const deletedUser = await User.findOneAndRemove({ id });
+    const deletedUser = await remove(id);
 
     if (!deletedUser) {
       res.status(400).send(`User with id ${id} doesn't exist`);
@@ -34,7 +29,7 @@ const deleteUser = async (req, res) => {
 
 const readUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await read();
 
     res.status(200).send(users);
   } catch (error) {
@@ -44,13 +39,7 @@ const readUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { id, email, password } = req.body;
-
-    const updatedUser = await User.findOneAndUpdate(
-      { id },
-      { $set: { email, password } },
-      { new: true }
-    );
+    const updatedUser = await update(req.body);
 
     if (!updatedUser) {
       res.status(400).send(`User with id ${id} doesn't exist`);
