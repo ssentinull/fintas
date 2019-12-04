@@ -3,8 +3,8 @@ const uuidv1 = require("uuid");
 
 const createUser = async (req, res) => {
   try {
-    const id = uuidv1();
-    const newUser = await create({ ...req.body, id });
+    const [id, isAttend] = [uuidv1(), false];
+    const newUser = await create({ ...req.body, id, isAttend });
 
     res.status(200).send(newUser);
   } catch (error) {
@@ -39,7 +39,8 @@ const readUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await update(req.body);
+    const { id, email, password, name } = req.body;
+    const updatedUser = await update({ id, email, password, name });
 
     if (!updatedUser) {
       res.status(400).send(`User with id ${id} doesn't exist`);
