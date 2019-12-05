@@ -1,6 +1,11 @@
 const User = require("../models/user.model");
+const uuidv1 = require("uuid");
 
-const create = userObj => User.create(userObj);
+const create = async userObj => {
+  const [id, isCheckedIn] = [uuidv1(), false];
+
+  return User.create({ ...userObj, id, isCheckedIn });
+};
 
 const remove = id => User.findOneAndRemove({ id });
 

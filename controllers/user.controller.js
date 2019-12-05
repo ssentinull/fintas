@@ -1,10 +1,8 @@
 const { create, read, remove, update } = require("../services/user.service");
-const uuidv1 = require("uuid");
 
 const createUser = async (req, res) => {
   try {
-    const [id, isAttend] = [uuidv1(), false];
-    const newUser = await create({ ...req.body, id, isAttend });
+    const newUser = await create(req.body);
 
     res.status(200).send(newUser);
   } catch (error) {
