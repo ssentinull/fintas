@@ -9,7 +9,9 @@ const create = async userObj => {
 
 const remove = id => User.findOneAndRemove({ id });
 
-const read = () => User.find().sort({ name: "asc" });
+const readAll = () => User.find().sort({ name: "asc" });
+
+const readOne = id => User.findOne({ id });
 
 const update = async userObj => {
   const { id, email, password, name } = userObj;
@@ -21,4 +23,4 @@ const update = async userObj => {
   );
 };
 
-module.exports = { create, read, remove, update };
+module.exports = { create, readAll, readOne, remove, update };
