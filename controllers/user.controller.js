@@ -1,4 +1,4 @@
-const { create, read, remove, update } = require("../services/user.service");
+const { create, readAll, remove, update } = require("../services/user.service");
 
 const createUser = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ const deleteUser = async (req, res) => {
 
 const readUsers = async (req, res) => {
   try {
-    const users = await read();
+    const users = await readAll();
 
     res.status(200).send(users);
   } catch (error) {
