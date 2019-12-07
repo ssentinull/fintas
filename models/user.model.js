@@ -6,7 +6,7 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   isCheckedIn: { type: Boolean, required: true },
-  token: { type: String, required: true, unique: true }
+  token: { type: String, unique: true }
 });
 
 module.exports = model("User", UserSchema);
