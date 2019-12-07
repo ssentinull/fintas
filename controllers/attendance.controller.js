@@ -1,11 +1,11 @@
 const { insert } = require("../services/attendance.service");
 const { readOne } = require("../services/user.service");
 const {
-  negateIsCheckedInAttr
-} = require("../utils/negateIsCheckedInAttr.util");
-const { checkIsTokenAttrNull } = require("../utils/checkIsTokenAttrNull.util");
-const { checkIsTokensMatch } = require("../utils/checkIsTokensMatch.util");
-const { saveTokenAttrValue } = require("../utils/saveTokenAttrValue.util");
+  checkIsTokenAttrNull,
+  checkIsTokensMatch,
+  negateIsCheckedInAttr,
+  saveTokenAttrValue
+} = require("../utils/index.utils");
 
 const insertAttendance = async (req, res) => {
   try {
