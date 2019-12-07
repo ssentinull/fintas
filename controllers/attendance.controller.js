@@ -1,5 +1,5 @@
-const { insert } = require("../services/attendance.service");
-const { readOne } = require("../services/user.service");
+const attendanceService = require("../services/attendance.service");
+const userService = require("../services/user.service");
 const {
   checkIsTokenAttrNull,
   checkIsTokensMatch,
@@ -10,7 +10,7 @@ const {
 const insertAttendance = async (req, res) => {
   try {
     const { userId, token } = req.body;
-    const user = await readOne(userId);
+    const user = await userService.readOne(userId);
 
     const isTokenNull = checkIsTokenAttrNull(user);
 
@@ -31,7 +31,10 @@ const insertAttendance = async (req, res) => {
     negateIsCheckedInAttr(user);
 
     const { id, isCheckedIn } = user;
-    const newAttendance = await insert({ userId: id, isCheckedIn });
+    const newAttendance = await attendanceService.insert({
+      userId: id,
+      isCheckedIn
+    });
 
     return res.status(200).send(newAttendance);
   } catch (error) {
