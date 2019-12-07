@@ -15,7 +15,7 @@ const insertAttendance = async (req, res) => {
     const isTokenNull = checkIsTokenAttrNull(user);
 
     if (isTokenNull) {
-      saveTokenAttrValue(user, token);
+      await saveTokenAttrValue(user, token);
     }
 
     const isTokensMatch = checkIsTokensMatch(user.token, token);

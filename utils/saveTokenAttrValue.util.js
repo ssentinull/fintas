@@ -1,6 +1,6 @@
-const saveTokenAttrValue = (userObj, token) => {
+const saveTokenAttrValue = async (userObj, token) => {
   userObj.token = token;
-  userObj.save();
+  await userObj.save();
 };
 
 module.exports = { saveTokenAttrValue };
