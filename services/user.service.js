@@ -17,7 +17,7 @@ const remove = id => userRepository.remove(id);
 
 const readAll = () => userRepository.readAll();
 
-const readOne = id => userRepository.readOne(id);
+const readOne = id => userRepository.readOneById(id);
 
 const update = async userObj => {
   const { id, email, password, name } = userObj;
