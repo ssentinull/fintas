@@ -3,6 +3,7 @@ const userRepository = require("../repositories/user.repository");
 const uuidv1 = require("uuid");
 const {
   checkIsTokenAttrNull,
+  checkIsTokenDuplicate,
   checkIsTokensMatch,
   negateIsCheckedInAttr,
   saveTokenAttrValue
@@ -10,11 +11,18 @@ const {
 
 const insert = async req => {
   const { userId, token } = req.body;
-  const user = await userRepository.readOne(userId);
-
+  const user = await userRepository.readOneById(userId);
   const isTokenNull = checkIsTokenAttrNull(user);
 
   if (isTokenNull) {
+    const isTokenDuplicate = await checkIsTokenDuplicate(token);
+
+    if (isTokenDuplicate) {
+      throw Error(
+        "Device with this unique identifier already exists in the database"
+      );
+    }
+
     await saveTokenAttrValue(user, token);
   }
 
@@ -28,8 +36,7 @@ const insert = async req => {
 
   await negateIsCheckedInAttr(user);
 
-  const { isCheckedIn } = user;
-  const attendanceId = uuidv1();
+  const [{ isCheckedIn }, attendanceId] = [user, uuidv1()];
   const newAttendance = await attendanceRepository.insert({
     id: attendanceId,
     userId,
