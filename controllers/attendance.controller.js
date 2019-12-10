@@ -10,7 +10,7 @@ const insertAttendance = async (req, res) => {
   }
 };
 
-const readAttendances = async (req, res) => {
+const readAllAttendances = async (req, res) => {
   try {
     const attendances = await attendanceService.readAll();
 
@@ -20,4 +20,14 @@ const readAttendances = async (req, res) => {
   }
 };
 
-module.exports = { insertAttendance, readAttendances };
+const readUserAttendances = async (req, res) => {
+  try {
+    const attendances = await attendanceService.readUser(req.params.userId);
+
+    return res.status(200).send(attendances);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
+module.exports = { insertAttendance, readAllAttendances, readUserAttendances };

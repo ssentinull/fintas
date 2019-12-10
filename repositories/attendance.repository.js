@@ -4,4 +4,7 @@ const insert = async attendanceObj => AttendanceModel.create(attendanceObj);
 
 const readAll = async () => AttendanceModel.find().sort({ createdAt: "desc" });
 
-module.exports = { insert, readAll };
+const readUser = async userId =>
+  AttendanceModel.find({ userId }).sort({ createdAt: "desc" });
+
+module.exports = { insert, readAll, readUser };
