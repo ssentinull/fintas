@@ -1,17 +1,17 @@
-const User = require("../models/user.model");
+const UserModel = require("../models/user.model");
 
-const create = async userObj => User.create(userObj);
+const create = async userObj => UserModel.create(userObj);
 
-const readAll = async () => User.find().sort({ name: "asc" });
+const readAll = async () => UserModel.find().sort({ name: "asc" });
 
-const readOneById = async id => User.findOne({ id });
+const readOneById = async id => UserModel.findOne({ id });
 
-const readOneByToken = async token => User.findOne({ token });
+const readOneByToken = async token => UserModel.findOne({ token });
 
-const remove = async id => User.findOneAndRemove({ id });
+const remove = async id => UserModel.findOneAndRemove({ id });
 
 const update = async (id, email, password, name) =>
-  User.findOneAndUpdate(
+  UserModel.findOneAndUpdate(
     { id },
     { $set: { email, password, name } },
     { new: true }
