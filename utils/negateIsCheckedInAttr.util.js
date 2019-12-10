@@ -1,6 +1,6 @@
-const negateIsCheckedInAttr = userObject => {
+const negateIsCheckedInAttr = async userObject => {
   userObject.isCheckedIn = !userObject.isCheckedIn;
-  userObject.save();
+  await userObject.save();
 };
 
 module.exports = { negateIsCheckedInAttr };
