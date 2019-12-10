@@ -46,4 +46,6 @@ const insert = async req => {
   return newAttendance;
 };
 
-module.exports = { insert };
+const readAll = () => attendanceRepository.readAll();
+
+module.exports = { insert, readAll };
