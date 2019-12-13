@@ -4,6 +4,8 @@ const create = async userObj => UserModel.create(userObj);
 
 const readAll = async () => UserModel.find().sort({ name: "asc" });
 
+const readOneByEmail = async email => UserModel.findOne({ email }).lean();
+
 const readOneById = async id => UserModel.findOne({ id });
 
 const readOneByToken = async token => UserModel.findOne({ token });
@@ -20,6 +22,7 @@ const update = async (id, email, password, name) =>
 module.exports = {
   create,
   readAll,
+  readOneByEmail,
   readOneById,
   readOneByToken,
   remove,

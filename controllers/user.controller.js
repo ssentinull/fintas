@@ -25,9 +25,34 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userService.readOneByEmail(email);
+
+    if (!user) {
+      return res
+        .status(200)
+        .json({ success: 0, message: "Email doesn't exist in our database" });
+    }
+
+    const isLoggedIn = await userService.login(password, user.password);
+
+    if (!isLoggedIn) {
+      return res
+        .status(200)
+        .json({ success: 0, message: "Email and password is incorrect" });
+    }
+
+    return res.status(200).send({ ...user, success: 1 });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
 const readUser = async (req, res) => {
   try {
-    const user = await userService.readOne(req.params.id);
+    const user = await userService.readOneById(req.params.id);
 
     return res.status(200).send(user);
   } catch (error) {
@@ -65,6 +90,7 @@ const test = (req, res) => res.send("hello");
 module.exports = {
   createUser,
   deleteUser,
+  loginUser,
   readUser,
   readUsers,
   test,

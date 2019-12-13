@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const userRepository = require("../repositories/user.repository");
 const uuidv1 = require("uuid");
+const userRepository = require("../repositories/user.repository");
 
 const SALT_ROUNDS = 10;
 
@@ -13,11 +13,16 @@ const create = async userObj => {
   return userRepository.create({ ...userObj, id, isCheckedIn, token });
 };
 
+const login = (requestPassword, userPassword) =>
+  bcrypt.compare(requestPassword, userPassword);
+
 const remove = id => userRepository.remove(id);
 
 const readAll = () => userRepository.readAll();
 
-const readOne = id => userRepository.readOneById(id);
+const readOneById = id => userRepository.readOneById(id);
+
+const readOneByEmail = email => userRepository.readOneByEmail(email);
 
 const update = async userObj => {
   const { id, email, password, name } = userObj;
@@ -27,4 +32,12 @@ const update = async userObj => {
   return userRepository.update(id, email, hashedPassword, name);
 };
 
-module.exports = { create, readAll, readOne, remove, update };
+module.exports = {
+  create,
+  login,
+  readAll,
+  readOneById,
+  readOneByEmail,
+  remove,
+  update
+};
