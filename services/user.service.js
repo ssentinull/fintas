@@ -21,8 +21,10 @@ const readOne = id => userRepository.readOneById(id);
 
 const update = async userObj => {
   const { id, email, password, name } = userObj;
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-  return userRepository.update(id, email, password, name);
+  return userRepository.update(id, email, hashedPassword, name);
 };
 
 module.exports = { create, readAll, readOne, remove, update };
