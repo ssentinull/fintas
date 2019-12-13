@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const attendanceRoute = require("./src/routes/attendance.route");
 const userRoute = require("./src/routes/user.route");
 
@@ -30,6 +31,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/user", userRoute);
 app.use("/api/attendance", attendanceRoute);
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(process.env.PORT, () => {
   console.log("Server is listening at PORT " + process.env.PORT);

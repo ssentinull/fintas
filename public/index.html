@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sistem Absensi Admin</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Absensi Karyawan</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Kehadiran <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="users.html">User</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Data Karyawan</h1>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Insert Data</button>
+        <table class="table table-striped" id="tabelKaryawan">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">User Id</th>
+                    <th scope="col">isCheckedIn</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="vendor/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var windowBaseUrl =window.location.origin; 
+            console.log(windowBaseUrl);
+            var apiBaseUrl = "https://fintas-test.herokuapp.com";
+            var url = apiBaseUrl+"/api/attendance"
+            $.ajax({
+                type: "GET",
+                url: url,
+                crossDomain: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                data: "json",
+                dataType: "json",
+                success: function (response) {
+                    var event_data = '';
+                    $.each(response, function (index, value) {
+                        /*console.log(value);*/
+                        event_data += '<tr>';
+                        event_data += '<td>' + value.id + '</td>';
+                        event_data += '<td>' + value.userId + '</td>';
+                        event_data += '<td>' + value.isCheckedIn + '</td>';
+                    });
+                    $("#tabelKaryawan").append(event_data);
+                    console.log(response);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

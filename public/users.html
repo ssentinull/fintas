@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sistem Absensi Admin</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Absensi Karyawan</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Kehadiran</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="users.html">User <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Data Karyawan</h1>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Insert Data</button>
+        <table class="table table-striped" id="tabelKaryawan">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <!-- Insert Data -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Insert Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Goes Here -->
+                        <form class="insertForm" id="insertForm">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email Karyawan</label>
+                                <input type="email" class="form-control" id="emailKaryawan" name="email"
+                                    aria-describedby="emailHelp" placeholder="Enter Email Karyawan">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nama Karyawan</label>
+                                <input type="text" class="form-control" id="namaKaryawan" name="name"
+                                    aria-describedby="emailHelp" placeholder="Enter Nama Karyawan">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="passwordKaryawan" name="password"
+                                    placeholder="Password">
+                            </div>
+                            <input type="hidden" name="isCheckedIn">
+                            <!-- <input type="hidden" class="form-control" id="isCheckedInKaryawan" name="isCheckedIn" value="true"/> -->
+                            <input type="hidden" class="form-control" id="tokenKaryawan" name="token" />
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="insertSubmitButton" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Data -->
+        <!-- Insert Data -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Insert Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Goes Here -->
+                        <form class="updateForm" id="updateForm">
+                            <input type="hidden" name="id" id="idKaryawan">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email Karyawan</label>
+                                <input type="email" class="form-control" name="email" aria-describedby="emailHelp"
+                                    placeholder="Enter Email Karyawan" id="editEmailForm">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nama Karyawan</label>
+                                <input type="text" class="form-control" name="name" aria-describedby="emailHelp"
+                                    placeholder="Enter Nama Karyawan" id="editNameForm">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" name="password" id="editPasswordForm" placeholder="Password">
+                            </div>
+                            <!-- <input type="hidden" class="form-control" id="isCheckedInKaryawan" name="isCheckedIn" value="true"/> -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="updateSubmitButton" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="vendor/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var windowBaseUrl =window.location.origin; 
+            console.log(windowBaseUrl);
+            var apiBaseUrl = "https://fintas-test.herokuapp.com";
+            var url = apiBaseUrl+"/api/user"
+            $.ajax({
+                type: "GET",
+                url: url,
+                crossDomain: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                data: "json",
+                dataType: "json",
+                success: function (response) {
+                    var event_data = '';
+                    $.each(response, function (index, value) {
+                        /*console.log(value);*/
+                        event_data += '<tr>';
+                        event_data += '<td>' + value.id + '</td>';
+                        event_data += '<td>' + value.email + '</td>';
+                        event_data += '<td>' + value.name + '</td>';
+                        event_data += '<td>' +
+                            '<input type="button" name="editButton" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-selector="' +
+                            index +
+                            '" value="Edit"> <input type="button" name="deleteButton" class="btn btn-danger" data-toggle="modal" data-selector="' +
+                            value.id +
+                            '" value="Delete"> ' +
+                            '</td>';
+                        event_data += '</tr>';
+                    });
+                    $("#tabelKaryawan").append(event_data);
+                    console.log(response);
+
+                    $("input[name='editButton'").click(function () {
+                        var selector = $(this).data('selector');
+                        console.log(selector);
+                        $.ajax({
+                            type: "GET",
+                            url: apiBaseUrl+"/api/user",
+                            data: "json",
+                            dataType: "json",
+                            success: function (responseGetData) {
+                                $("#editEmailForm").val(responseGetData[selector].email);
+                                $("#editNameForm").val(responseGetData[selector].name);
+                                $("#editPasswordForm").val(responseGetData[selector].password);
+                                $("#updateForm").submit(function (e) {
+                                    e.preventDefault();
+                                    $("#idKaryawan").val(responseGetData[selector].id);
+                                    var form = $(this);
+                                    var url =apiBaseUrl+"/api/user";
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: url,
+                                        data: form.serialize(),
+                                        success: function (
+                                            response) {
+                                            window.location
+                                                .replace(
+                                                    windowBaseUrl+"/users.html"
+                                                    );
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+                    $("input[name='deleteButton']").click(function () {
+                        var selector = $(this).data('selector');
+                        console.log(selector);
+                        var urlDelete = apiBaseUrl+"/api/user/" +
+                            selector;
+                        $.ajax({
+                            type: "DELETE",
+                            url: urlDelete,
+                            success: function (response) {
+                                alert("Data Berhasil Dihapus");
+                                window.location.replace(
+                                    windowBaseUrl+"/users.html");
+
+                            }
+                        });
+                    });
+                    $("#insertForm").submit(function (e) {
+                        e.preventDefault();
+                        var token = Math.random().toString(36).substring(7);
+                        $('#tokenKaryawan').val(token);
+                        var form = $(this);
+                        var url = apiBaseUrl+"/api/user";
+                        console.log(form.serialize());
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            // data: JSON.stringify(data),
+                            data: form.serialize(),
+                            // dataType: 'JSON',
+                            // headers:{
+                            //     'Accept': 'application/json'
+                            // },
+                            success: function (data) {
+                                window.location.replace(
+                                    windowBaseUrl+"/users.html");
+                            },
+                            error: function (e) {
+                                console.log(e);
+                            },
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
