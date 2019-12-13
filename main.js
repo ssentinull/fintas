@@ -18,7 +18,8 @@ mongoose.connect(dbUrl, {
   dbName: process.env.DB_NAME,
   useCreateIndex: true,
   useFindAndModify: false,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 const app = express();
