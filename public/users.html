@@ -7,11 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sistem Absensi Admin</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+           font-family: 'Work Sans', serif;
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Absensi Karyawan</a>
+        <a class="navbar-brand" href="#">Fintas</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,40 +26,45 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Kehadiran</a>
+                    <a class="nav-link" href="index.html">Attendances</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="users.html">User <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="users.html">Users<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
     <div class="container">
-        <h1>Data Karyawan</h1>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Insert Data</button>
-        <table class="table table-striped" id="tabelKaryawan">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="row justify-content-between mt-4 mb-4">
+            <div class="col-md-4">
+                <h1>User Data</h1>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create User</button>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-striped" id="tabelKaryawan">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
         <!-- Insert Data -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Insert Data</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -62,23 +73,23 @@
                         <!-- Goes Here -->
                         <form class="insertForm" id="insertForm">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email Karyawan</label>
+                                <label for="exampleInputEmail1">Email</label>
                                 <input type="email" class="form-control" id="emailKaryawan" name="email"
-                                    aria-describedby="emailHelp" placeholder="Enter Email Karyawan">
+                                    aria-describedby="emailHelp" placeholder="hello.world@mail.com">
                                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with
                                     anyone else.</small>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Karyawan</label>
+                                <label for="exampleInputEmail1">Name</label>
                                 <input type="text" class="form-control" id="namaKaryawan" name="name"
-                                    aria-describedby="emailHelp" placeholder="Enter Nama Karyawan">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    aria-describedby="emailHelp" placeholder="Hello World">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your name with
                                     anyone else.</small>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password</label>
                                 <input type="password" class="form-control" id="passwordKaryawan" name="password"
-                                    placeholder="Password">
+                                    placeholder="this-is-a-password">
                             </div>
                             <input type="hidden" name="isCheckedIn">
                             <!-- <input type="hidden" class="form-control" id="isCheckedInKaryawan" name="isCheckedIn" value="true"/> -->
@@ -163,11 +174,18 @@
                     $.each(response, function (index, value) {
                         /*console.log(value);*/
                         event_data += '<tr>';
-                        event_data += '<td>' + value.id + '</td>';
+                        event_data += '<td>' + value.id.substring(0,9) + '...' + '</td>';
                         event_data += '<td>' + value.email + '</td>';
                         event_data += '<td>' + value.name + '</td>';
+
+                        if(value.isCheckedIn == true){
+                          event_data += '<td> <span class="badge badge-success">' + 'Checked-In' + '</span> </td>';
+                        } else {
+                          event_data += '<td> <span class="badge badge-danger">' + 'Checked-Out' + '</span> </td>';
+                        }
+
                         event_data += '<td>' +
-                            '<input type="button" name="editButton" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-selector="' +
+                            '<input type="button" name="editButton" class="btn btn-warning" data-toggle="modal" data-target="#editModal" data-selector="' +
                             index +
                             '" value="Edit"> <input type="button" name="deleteButton" class="btn btn-danger" data-toggle="modal" data-selector="' +
                             value.id +
