@@ -10,7 +10,7 @@ const {
 } = require("../utils/index.utils");
 
 const insert = async req => {
-  const { userId, token } = req.body;
+  const { token, userId } = req.body;
   const user = await userRepository.readOneById(userId);
   const isTokenNull = checkIsTokenAttrNull(user);
 
@@ -36,9 +36,10 @@ const insert = async req => {
 
   await negateIsCheckedInAttr(user);
 
-  const [{ isCheckedIn }, attendanceId] = [user, uuidv1()];
+  const [{ name, isCheckedIn }, attendanceId] = [user, uuidv1()];
   const newAttendance = await attendanceRepository.insert({
     id: attendanceId,
+    name,
     userId,
     isCheckedIn
   });

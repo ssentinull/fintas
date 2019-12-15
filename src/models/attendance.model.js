@@ -3,8 +3,9 @@ const { model, Schema } = require("mongoose");
 const AttendanceSchema = new Schema(
   {
     id: { type: String, required: true, unique: true },
-    userId: { type: String, required: true },
-    isCheckedIn: { type: Boolean, required: true }
+    isCheckedIn: { type: Boolean, required: true },
+    name: { type: String, required: true },
+    userId: { type: String, required: true }
   },
   { timestamps: true }
 );
