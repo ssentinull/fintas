@@ -16,13 +16,22 @@ const create = async userObj => {
 const login = (requestPassword, userPassword) =>
   bcrypt.compare(requestPassword, userPassword);
 
-const remove = id => userRepository.remove(id);
-
 const readAll = () => userRepository.readAll();
 
 const readOneById = id => userRepository.readOneById(id);
 
 const readOneByEmail = email => userRepository.readOneByEmail(email);
+
+const remove = id => userRepository.remove(id);
+
+const resetTokenByUserId = async id => {
+  const user = await userRepository.readOneById(id);
+
+  user.token = null;
+  user.save();
+
+  return user;
+};
 
 const update = async userObj => {
   const { id, email, password, name } = userObj;
@@ -39,5 +48,6 @@ module.exports = {
   readOneById,
   readOneByEmail,
   remove,
+  resetTokenByUserId,
   update
 };

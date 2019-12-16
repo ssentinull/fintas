@@ -70,6 +70,16 @@ const readUsers = async (req, res) => {
   }
 };
 
+const resetUserToken = async (req, res) => {
+  try {
+    const user = await userService.resetTokenByUserId(req.body.id);
+
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(400).send(error.errmsg);
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const { id, email, password, name } = req.body;
@@ -93,6 +103,7 @@ module.exports = {
   loginUser,
   readUser,
   readUsers,
+  resetUserToken,
   test,
   updateUser
 };
