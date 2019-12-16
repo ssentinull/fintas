@@ -79,7 +79,7 @@
                     $.each(response, function (index, value) {
                         /*console.log(value);*/
                         event_data += '<tr>';
-                        event_data += '<td>' + value.id.substring(0,9) + '...' + '</td>';
+                        event_data += '<td>' + value.userId.substring(0,9) + '...' + '</td>';
                         event_data += '<td>' + value.name + '</td>';
 
                         if(value.isCheckedIn == true){
