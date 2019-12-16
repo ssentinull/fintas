@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
     <style>
         body {
-           font-family: 'Work Sans', serif;
+            font-family: 'Work Sans', serif;
         }
     </style>
 </head>
@@ -136,7 +136,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" name="password" id="editPasswordForm" placeholder="Password">
+                                <input type="password" class="form-control" name="password" id="editPasswordForm"
+                                    placeholder="Password">
                             </div>
                             <!-- <input type="hidden" class="form-control" id="isCheckedInKaryawan" name="isCheckedIn" value="true"/> -->
 
@@ -155,10 +156,10 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var windowBaseUrl =window.location.origin; 
+            var windowBaseUrl = window.location.origin;
             console.log(windowBaseUrl);
             var apiBaseUrl = "https://fintas-test.herokuapp.com";
-            var url = apiBaseUrl+"/api/user"
+            var url = apiBaseUrl + "/api/user"
             $.ajax({
                 type: "GET",
                 url: url,
@@ -174,20 +175,24 @@
                     $.each(response, function (index, value) {
                         /*console.log(value);*/
                         event_data += '<tr>';
-                        event_data += '<td>' + value.id.substring(0,9) + '...' + '</td>';
+                        event_data += '<td>' + value.id.substring(0, 9) + '...' + '</td>';
                         event_data += '<td>' + value.email + '</td>';
                         event_data += '<td>' + value.name + '</td>';
 
-                        if(value.isCheckedIn == true){
-                          event_data += '<td> <span class="badge badge-success">' + 'Checked-In' + '</span> </td>';
+                        if (value.isCheckedIn == true) {
+                            event_data += '<td> <span class="badge badge-success">' +
+                                'Checked-In' + '</span> </td>';
                         } else {
-                          event_data += '<td> <span class="badge badge-danger">' + 'Checked-Out' + '</span> </td>';
+                            event_data += '<td> <span class="badge badge-danger">' +
+                                'Checked-Out' + '</span> </td>';
                         }
 
                         event_data += '<td>' +
                             '<input type="button" name="editButton" class="btn btn-warning" data-toggle="modal" data-target="#editModal" data-selector="' +
                             index +
-                            '" value="Edit"> <input type="button" name="deleteButton" class="btn btn-danger" data-toggle="modal" data-selector="' +
+                            '" value="Edit"> <input type="button" name="resetButton" id="resetButton" class="btn btn-warning" data-toggle="modal" data-selector="' +
+                            value.id +
+                            '" value="Reset Token"> <input type="button" name="deleteButton" class="btn btn-danger" data-toggle="modal" data-selector="' +
                             value.id +
                             '" value="Delete"> ' +
                             '</td>';
@@ -195,24 +200,44 @@
                     });
                     $("#tabelKaryawan").append(event_data);
                     console.log(response);
-
+                    $("input[name='resetButton']").click(function () {
+                        var selector = $(this).data('selector');
+                        // alert(selector);
+                        $.ajax({
+                            type: "POST",
+                            url: apiBaseUrl + "/api/user/reset-token",
+                            data: {'id':selector},
+                            dataType: "json",
+                            success: function (response) {
+                                window.location
+                                    .replace(
+                                        windowBaseUrl + "/users.html"
+                                    );
+                            }
+                        });
+                    });
                     $("input[name='editButton'").click(function () {
                         var selector = $(this).data('selector');
                         console.log(selector);
                         $.ajax({
                             type: "GET",
-                            url: apiBaseUrl+"/api/user",
+                            url: apiBaseUrl + "/api/user",
                             data: "json",
                             dataType: "json",
                             success: function (responseGetData) {
-                                $("#editEmailForm").val(responseGetData[selector].email);
-                                $("#editNameForm").val(responseGetData[selector].name);
-                                $("#editPasswordForm").val(responseGetData[selector].password);
+                                $("#editEmailForm").val(responseGetData[
+                                    selector].email);
+                                $("#editNameForm").val(responseGetData[selector]
+                                    .name);
+                                $("#editPasswordForm").val(responseGetData[
+                                    selector].password);
                                 $("#updateForm").submit(function (e) {
                                     e.preventDefault();
-                                    $("#idKaryawan").val(responseGetData[selector].id);
+                                    $("#idKaryawan").val(
+                                        responseGetData[selector].id
+                                        );
                                     var form = $(this);
-                                    var url =apiBaseUrl+"/api/user";
+                                    var url = apiBaseUrl + "/api/user";
                                     $.ajax({
                                         type: "PUT",
                                         url: url,
@@ -221,8 +246,9 @@
                                             response) {
                                             window.location
                                                 .replace(
-                                                    windowBaseUrl+"/users.html"
-                                                    );
+                                                    windowBaseUrl +
+                                                    "/users.html"
+                                                );
                                         }
                                     });
                                 });
@@ -232,7 +258,7 @@
                     $("input[name='deleteButton']").click(function () {
                         var selector = $(this).data('selector');
                         console.log(selector);
-                        var urlDelete = apiBaseUrl+"/api/user/" +
+                        var urlDelete = apiBaseUrl + "/api/user/" +
                             selector;
                         $.ajax({
                             type: "DELETE",
@@ -240,7 +266,7 @@
                             success: function (response) {
                                 alert("Data Berhasil Dihapus");
                                 window.location.replace(
-                                    windowBaseUrl+"/users.html");
+                                    windowBaseUrl + "/users.html");
 
                             }
                         });
@@ -250,7 +276,7 @@
                         var token = Math.random().toString(36).substring(7);
                         $('#tokenKaryawan').val(token);
                         var form = $(this);
-                        var url = apiBaseUrl+"/api/user";
+                        var url = apiBaseUrl + "/api/user";
                         console.log(form.serialize());
                         $.ajax({
                             type: "POST",
@@ -263,7 +289,7 @@
                             // },
                             success: function (data) {
                                 window.location.replace(
-                                    windowBaseUrl+"/users.html");
+                                    windowBaseUrl + "/users.html");
                             },
                             error: function (e) {
                                 console.log(e);
