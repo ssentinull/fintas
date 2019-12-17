@@ -48,6 +48,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Id</th>
+                        <th scope="col">Token</th>
                         <th scope="col">Email</th>
                         <th scope="col">Name</th>
                         <th scope="col">Status</th>
@@ -176,6 +177,13 @@
                         /*console.log(value);*/
                         event_data += '<tr>';
                         event_data += '<td>' + value.id.substring(0, 9) + '...' + '</td>';
+
+                        if(value.token == null){
+                            event_data += '<td> - </td>';
+                        } else {
+                          event_data += '<td>' + value.token.substring(0, 9) + '...' + '</td>';
+                        }
+
                         event_data += '<td>' + value.email + '</td>';
                         event_data += '<td>' + value.name + '</td>';
 
@@ -188,7 +196,7 @@
                         }
 
                         event_data += '<td>' +
-                            '<input type="button" name="editButton" class="btn btn-warning" data-toggle="modal" data-target="#editModal" data-selector="' +
+                            '<input type="button" name="editButton" class="btn btn-info" data-toggle="modal" data-target="#editModal" data-selector="' +
                             index +
                             '" value="Edit"> <input type="button" name="resetButton" id="resetButton" class="btn btn-warning" data-toggle="modal" data-selector="' +
                             value.id +
